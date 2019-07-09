@@ -81,7 +81,7 @@ class ChessDetector:
         else:
             self.left_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
             scipy.misc.imsave('camera_data/left_checkerboard.jpg', self.left_image)
-        if self.right_image != None:
+        if self.right_image is not None:
             self.process_image()
     
     def get_points_3d(self, left_points, right_points):
@@ -111,9 +111,8 @@ class ChessDetector:
         x, y = 5, 5
         ret, left_corners = cv2.findChessboardCorners(left_gray, (x,y), flags=1)
         ret, right_corners = cv2.findChessboardCorners(right_gray, (x,y), flags=1)
-        print left_corners
-        print right_corners
-        print len(left_corners), len(right_corners)
+        print left_corners.shape
+        print right_corners.shape
         left, right, = [], []
         for i in range(len(left_corners)):
             left.append([left_corners[i][0][0], left_corners[i][0][1]])

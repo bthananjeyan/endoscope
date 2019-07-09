@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 
 """
@@ -16,6 +17,9 @@ class Transformer(object):
     def __call__(self, pt):
         return transform_point(pt, self.transform)
 
+    def __str__(self):
+        return self.transform.__str__()
+
 def transform_point(pt, transform):
     npt = np.ones(4)
     npt[:3] = pt
@@ -28,7 +32,6 @@ def solve_for_rigid_transformation(inpts, outpts):
     assert inpts.shape == outpts.shape
     inpts, outpts = np.copy(inpts), np.copy(outpts)
     inpt_mean = inpts.mean(axis=0)
-    print(inpt_mean)
     outpt_mean = outpts.mean(axis=0)
     outpts -= outpt_mean
     inpts -= inpt_mean
@@ -50,3 +53,12 @@ def solve_for_rigid_transformation(inpts, outpts):
 
 def get_transformer(inpts, outpts, name):
     return Transformer(solve_for_rigid_transformation(inpts, outpts), name)
+
+if __name__ == '__main__':
+    with open("camera_data/endoscope_chesspts.p", "rb") as f:
+        camera_pts = np.array(pickle.load(f))
+
+    robot_pts = np.copy(camera_pts)
+    T = get_transformer(camera_pts, robot_pts, "Endoscope_to_PSM1")
+
+    print(T)
