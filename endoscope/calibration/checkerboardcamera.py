@@ -1,15 +1,12 @@
 import image_geometry
 import rospy
 from geometry_msgs.msg import PointStamped, Point
-from visualization_msgs.msg import Marker
 import cv2
 import cv_bridge
 import numpy as np
 import rospy, scipy.misc
 
 from sensor_msgs.msg import Image, CameraInfo
-from visualization_msgs.msg import Marker, MarkerArray
-from geometry_msgs.msg import PoseStamped
 import pickle
 import sys
 
@@ -107,12 +104,6 @@ class ChessDetector:
 
     def process_image(self):
         print "processing image"
-        # # Code for 2D pixels in rectified image -> 3D point in Camera Frame. Uncomment to use
-        # left_corners = [(997, 893)]
-        # right_corners = [(888, 898)]
-        # self.pts = [(p.point.x, p.point.y, p.point.z) for p in pts3d]
-        # print self.pts
-        # return
 
 
         left_gray = cv2.cvtColor(self.left_image,cv2.COLOR_BGR2GRAY)
